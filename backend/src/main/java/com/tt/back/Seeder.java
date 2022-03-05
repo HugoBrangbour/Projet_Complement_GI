@@ -1,14 +1,21 @@
 package com.tt.back;
 
-import com.tt.back.entity.Nomenclature;
-import com.tt.back.entity.Tva;
-import com.tt.back.repository.NomenclatureRepository;
-import com.tt.back.repository.TvaRepository;
+import com.tt.back.entity.Document;
+import com.tt.back.entity.FileType;
+import com.tt.back.repository.DocumentRepository;
+import com.tt.back.repository.FileTypeRepository;
+import com.tt.back.util.DocumentForm;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
 
 @Configuration
 public class Seeder {
@@ -16,32 +23,32 @@ public class Seeder {
     private static final Logger log = LoggerFactory.getLogger(Seeder.class);
 
     @Bean
-    // Seeding de la table TVA
-    public CommandLineRunner seedingTva(TvaRepository tvaRepository) {
+    // Seeding de la table Document
+    public CommandLineRunner seedingDocument(FileTypeRepository typeRepository, DocumentRepository documentRepository) {
         return args -> {
-            log.info("Début du seeding de la table TVA");
-            tvaRepository.save(new Tva(20f,"Taux Normal - 20%"));
-            tvaRepository.save(new Tva(10f,"Taux Intermédiaire - 10%"));
-            tvaRepository.save(new Tva(5.5f,"Taux Réduit - 5.5%"));
-            tvaRepository.save(new Tva(2.1f,"Taux Particulier - 2.1%"));
-            tvaRepository.save(new Tva(0f,"Exonération - 0%"));
-            log.info("Fin du seeding de la table TVA");
-        };
-    }
+            log.info("Début du seeding de la table Type");
+            typeRepository.save(new FileType("texte"));
+            typeRepository.save(new FileType("audio"));
+            typeRepository.save(new FileType("vidéo"));
+            typeRepository.save(new FileType("binaire"));
+            log.info("Fin du seeding de la table Type");
 
-    @Bean
-    // Seeding de la table Nomenclature
-    public CommandLineRunner seedingNomenclature(NomenclatureRepository nomenclatureRepository) {
-        return args -> {
-            log.info("Début du seeding de la table NOMENCLATURE");
-            nomenclatureRepository.save(new Nomenclature("Epicerie salée"));
-            nomenclatureRepository.save(new Nomenclature("Epicerie sucrée"));
-            nomenclatureRepository.save(new Nomenclature("PFT"));
-            nomenclatureRepository.save(new Nomenclature("Produits ménagers"));
-            nomenclatureRepository.save(new Nomenclature("Textile"));
-            nomenclatureRepository.save(new Nomenclature("Electronique"));
-            nomenclatureRepository.save(new Nomenclature("DVD / CD"));
-            nomenclatureRepository.save(new Nomenclature("Livre"));
+            log.info("Début du seeding de la table Document");
+            List<FileType> types = typeRepository.findAll();
+
+            Date date1 = new Date();
+            Calendar c = Calendar.getInstance();
+            c.setTime(date1);
+            c.add(Calendar.DATE, 1);
+            Date date2 = c.getTime();
+            List<Date> dates= new ArrayList<>();
+            dates.add(date1);
+            dates.add(date2);
+
+            for(int i = 0; i <40; i++){
+                DocumentForm doc = new DocumentForm("Emplacment " + i, "Fichier " + i, types.get(i%4), dates.get(i%2));
+                documentRepository.save(new Document(doc));
+            }
             log.info("Fin du seeding de la table NOMENCLATURE");
         };
     }
