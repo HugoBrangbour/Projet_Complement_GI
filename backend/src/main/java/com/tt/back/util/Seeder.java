@@ -1,17 +1,15 @@
-package com.tt.back;
+package com.tt.back.util;
 
 import com.tt.back.entity.Document;
 import com.tt.back.entity.FileType;
 import com.tt.back.repository.DocumentRepository;
 import com.tt.back.repository.FileTypeRepository;
-import com.tt.back.util.DocumentForm;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -49,7 +47,7 @@ public class Seeder {
                 DocumentForm doc = new DocumentForm("Emplacment " + i, "Fichier " + i, types.get(i%4), dates.get(i%2));
                 documentRepository.save(new Document(doc));
             }
-            log.info("Fin du seeding de la table NOMENCLATURE");
+            log.info("Fin du seeding de la table Document");
         };
     }
 

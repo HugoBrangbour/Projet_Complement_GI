@@ -30,9 +30,9 @@ public class DocumentController {
     }
 
     @GetMapping(value = "/")
-    public Page<Document> getAll(@RequestParam int offset){
+    public ResponseEntity<Page<Document>> getAll(@RequestParam int offset){
         Pageable pageable = PageRequest.of(offset, NUMBER_OF_ELEMENT);
-        return documentService.getAllPage(pageable);
+        return new ResponseEntity<>(documentService.getAllPage(pageable), HttpStatus.OK);
     }
 
     @GetMapping(value = "/{id}")
@@ -47,14 +47,19 @@ public class DocumentController {
     }
 
     @GetMapping(value = "/nom/{nom}")
-    public Page<Document> getByNom(@PathVariable("nom") String nom, @RequestParam int offset){
+    public ResponseEntity<Page<Document>> getByNom(@PathVariable("nom") String nom, @RequestParam int offset){
         Pageable pageable = PageRequest.of(offset, NUMBER_OF_ELEMENT);
-        return documentService.getByNom(nom, pageable);
+        Page<Document> docs = documentService.getByNom(nom, pageable);
+        if(docs.isEmpty()){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } else {
+            return new ResponseEntity<>(documentService.getByNom(nom, pageable), HttpStatus.OK);
+        }
     }
 
     @PostMapping(value = "/")
-    public Document create(@RequestBody DocumentForm documentForm){
-        return documentService.create(documentForm);
+    public ResponseEntity<Document> create(@RequestBody DocumentForm documentForm){
+        return new ResponseEntity<>(documentService.create(documentForm), HttpStatus.CREATED);
     }
 
     @PutMapping(value = "/{id}")
@@ -82,7 +87,7 @@ public class DocumentController {
     }
 
     @GetMapping(value = "/statsType")
-    public Map<String, Integer> getStatsByType(){
+    public ResponseEntity<Map<String, Integer>> getStatsByType(){
         Iterable<Document> docs = documentService.getAll();
         Map<String, Integer> mapResult= new HashMap<>();
         for (Document doc : docs) {
@@ -93,11 +98,11 @@ public class DocumentController {
                 mapResult.put(type, 1);
             }
         }
-        return mapResult;
+        return new ResponseEntity<>(mapResult, HttpStatus.OK);
     }
 
     @GetMapping(value = "/statsDate")
-    public Map<String, Integer> getStatsByDate(){
+    public ResponseEntity<Map<String, Integer>> getStatsByDate(){
         Iterable<Document> docs = documentService.getAll();
         Map<String, Integer> mapResult= new HashMap<>();
         for (Document doc : docs) {
@@ -108,11 +113,11 @@ public class DocumentController {
                 mapResult.put(date, 1);
             }
         }
-        return mapResult;
+        return new ResponseEntity<>(mapResult, HttpStatus.OK);
     }
 
     @GetMapping(value = "/statsDeux")
-    public Map<ImmutablePair<String, String>, Integer> getStatsByLesDeux(){
+    public ResponseEntity<Map<ImmutablePair<String, String>, Integer>> getStatsByLesDeux(){
         Iterable<Document> docs = documentService.getAll();
         Map<ImmutablePair<String, String>, Integer> mapResult= new HashMap<>();
         for (Document doc : docs) {
@@ -125,6 +130,6 @@ public class DocumentController {
                 mapResult.put(pair, 1);
             }
         }
-        return mapResult;
+        return new ResponseEntity<>(mapResult, HttpStatus.OK);
     }
 }

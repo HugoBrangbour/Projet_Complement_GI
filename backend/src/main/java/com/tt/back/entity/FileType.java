@@ -39,7 +39,7 @@ public class FileType {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         FileType fileType = (FileType) o;
-        return id.equals(fileType.id) && nom.equals(fileType.nom);
+        return nom.equals(fileType.nom);
     }
 
     @Override
