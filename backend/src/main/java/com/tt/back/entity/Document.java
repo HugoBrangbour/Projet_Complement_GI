@@ -6,6 +6,9 @@ import javax.persistence.*;
 import java.util.Date;
 import java.util.Objects;
 
+/**
+ * The type Document.
+ */
 @Entity
 public class Document {
     @Id
@@ -25,8 +28,16 @@ public class Document {
     @Column(nullable=false)
     private Date date;
 
+    /**
+     * Instantiates a new Document.
+     */
     public Document() {}
 
+    /**
+     * Instantiates a new Document.
+     *
+     * @param documentForm the document form
+     */
     public Document(DocumentForm documentForm){
         this.type = documentForm.getType();
         this.date = documentForm.getDate();
@@ -34,42 +45,92 @@ public class Document {
         this.nom = documentForm.getNom();
     }
 
+    /**
+     * Gets id.
+     *
+     * @return the id
+     */
     public Integer getId() {
         return id;
     }
 
+    /**
+     * Sets id.
+     *
+     * @param id the id
+     */
     public void setId(Integer id) {
         this.id = id;
     }
 
+    /**
+     * Gets file.
+     *
+     * @return the file
+     */
     public String getFile() {
         return file;
     }
 
+    /**
+     * Sets file.
+     *
+     * @param file the file
+     */
     public void setFile(String file) {
         this.file = file;
     }
 
+    /**
+     * Gets nom.
+     *
+     * @return the nom
+     */
     public String getNom() {
         return nom;
     }
 
+    /**
+     * Sets nom.
+     *
+     * @param nom the nom
+     */
     public void setNom(String nom) {
         this.nom = nom;
     }
 
+    /**
+     * Gets type.
+     *
+     * @return the type
+     */
     public FileType getType() {
         return type;
     }
 
+    /**
+     * Sets type.
+     *
+     * @param type the type
+     */
     public void setType(FileType type) {
         this.type = type;
     }
 
+    /**
+     * Gets date.
+     *
+     * @return the date
+     */
     public Date getDate() {
         return date;
     }
 
+    /**
+     * Sets date.
+     *
+     * @param date the date
+     */
     public void setDate(Date date) {
         this.date = date;
     }

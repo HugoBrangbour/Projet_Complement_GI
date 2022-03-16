@@ -3,6 +3,9 @@ package com.tt.back.entity;
 import javax.persistence.*;
 import java.util.Objects;
 
+/**
+ * The type File type.
+ */
 @Entity
 public class FileType {
     @Id
@@ -12,24 +15,52 @@ public class FileType {
     @Column(length=50, nullable=false)
     private String nom;
 
+    /**
+     * Instantiates a new File type.
+     */
     protected FileType(){}
 
+    /**
+     * Instantiates a new File type.
+     *
+     * @param nom the nom
+     */
     public FileType(String nom){
         this.nom = nom;
     }
 
+    /**
+     * Gets id.
+     *
+     * @return the id
+     */
     public Integer getId() {
         return id;
     }
 
+    /**
+     * Sets id.
+     *
+     * @param id the id
+     */
     public void setId(Integer id) {
         this.id = id;
     }
 
+    /**
+     * Gets nom.
+     *
+     * @return the nom
+     */
     public String getNom() {
         return nom;
     }
 
+    /**
+     * Sets nom.
+     *
+     * @param nom the nom
+     */
     public void setNom(String nom) {
         this.nom = nom;
     }

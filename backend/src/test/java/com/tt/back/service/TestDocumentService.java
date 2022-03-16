@@ -14,8 +14,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 
 import java.util.*;
 
@@ -24,9 +22,15 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.when;
 
+/**
+ * The type Test document service.
+ */
 @ExtendWith(MockitoExtension.class)
-public class TestDocumentService {
+class TestDocumentService {
 
+    /**
+     * The Document service.
+     */
     @InjectMocks
     DocumentService documentService;
 
@@ -35,6 +39,9 @@ public class TestDocumentService {
     @Mock
     private FileTypeRepository fileTypeRepository;
 
+    /**
+     * Test get all page.
+     */
     @Test
     void testGetAllPage(){
         Document doc1 = new Document(new DocumentForm("file1", "nom_file1", new FileType("mp4"),new Date()));
@@ -51,6 +58,9 @@ public class TestDocumentService {
         assertThat(iterator.next()).isEqualTo(doc2);
     }
 
+    /**
+     * Test get all.
+     */
     @Test
     void testGetAll(){
         Document doc1 = new Document(new DocumentForm("file1", "nom_file1", new FileType("mp4"),new Date()));
@@ -65,6 +75,9 @@ public class TestDocumentService {
         assertThat(iterator.next()).isEqualTo(doc2);
     }
 
+    /**
+     * Test get by id.
+     */
     @Test
     void testGetById(){
         Document doc1 = new Document(new DocumentForm("file1", "nom_file1", new FileType("mp4"),new Date()));
@@ -73,9 +86,12 @@ public class TestDocumentService {
 
         Optional<Document> result = documentService.getById(doc1.getId());
 
-        assertThat(result.get()).isEqualTo(doc1);
+        assertThat(result).contains(doc1);
     }
 
+    /**
+     * Test get by nom.
+     */
     @Test
     void testGetByNom(){
         Document doc1 = new Document(new DocumentForm("file1", "nom_file1", new FileType("mp4"),new Date()));
@@ -91,6 +107,9 @@ public class TestDocumentService {
         assertThat(iterator.next()).isEqualTo(doc1);
     }
 
+    /**
+     * Test create.
+     */
     @Test
     void testCreate(){
         DocumentForm docForm = new DocumentForm("file1", "nom_file1", new FileType("mp4"),new Date());
@@ -105,6 +124,9 @@ public class TestDocumentService {
         assertThat(result).isEqualTo(doc1);
     }
 
+    /**
+     * Test update.
+     */
     @Test
     void testUpdate(){
         DocumentForm docForm = new DocumentForm("file1", "nom_file1", new FileType("mp4"),new Date());
@@ -123,6 +145,9 @@ public class TestDocumentService {
         assertThat(result).isEqualTo(doc1);
     }
 
+    /**
+     * Test delete.
+     */
     @Test
     void testDelete(){
         documentService.delete(any(Document.class));

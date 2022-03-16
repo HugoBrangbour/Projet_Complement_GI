@@ -8,22 +8,32 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
 
+/**
+ * The type Document service.
+ */
 @Service
 public class DocumentService {
     private final DocumentRepository documentRepository;
     private final FileTypeRepository fileTypeRepository;
 
+    /**
+     * Instantiates a new Document service.
+     *
+     * @param documentRepository the document repository
+     * @param fileTypeRepository the file type repository
+     */
     public DocumentService(DocumentRepository documentRepository, FileTypeRepository fileTypeRepository) {
         this.documentRepository = documentRepository;
         this.fileTypeRepository = fileTypeRepository;
     }
 
     /**
-     * Récupére l'ensemble des documents
-     * @return
+     * Get all page page.
+     *
+     * @param pageable the pageable
+     * @return the page
      */
     public Page<Document> getAllPage(Pageable pageable){
         return documentRepository.findAll(pageable);
@@ -35,8 +45,9 @@ public class DocumentService {
 
     /**
      * Recherche un document par son ID
-     * @param id
-     * @return
+     *
+     * @param id the id
+     * @return optional
      */
     public Optional<Document> getById(Integer id){
         return documentRepository.findById(id);
@@ -44,8 +55,10 @@ public class DocumentService {
 
     /**
      * Recherche un/des documents par son nom
-     * @param nom
-     * @return
+     *
+     * @param nom      the nom
+     * @param pageable the pageable
+     * @return page
      */
     public Page<Document> getByNom(String nom, Pageable pageable){
         return documentRepository.findByNomContainsIgnoreCase(nom, pageable);
@@ -53,8 +66,8 @@ public class DocumentService {
 
     /**
      * Fonction pour copier l'objet issu du request body dans un document
-     * @param documentForm
-     * @param document
+     * @param documentForm the document form
+     * @param document the document
      * @return
      */
     private Document copyDocumentFormIntoDocument(DocumentForm documentForm, Document document){
@@ -71,8 +84,9 @@ public class DocumentService {
 
     /**
      * Création d'un nouveau document
-     * @param documentForm
-     * @return
+     *
+     * @param documentForm the document form
+     * @return document
      */
     public Document create(DocumentForm documentForm){
         return copyDocumentFormIntoDocument(documentForm, new Document());
@@ -80,9 +94,10 @@ public class DocumentService {
 
     /**
      * Mise à jour d'un document
-     * @param document
-     * @param documentForm
-     * @return
+     *
+     * @param document     the document
+     * @param documentForm the document form
+     * @return document
      */
     public Document update(Document document, DocumentForm documentForm){
         return copyDocumentFormIntoDocument(documentForm, document);
@@ -90,7 +105,8 @@ public class DocumentService {
 
     /**
      * Supprime un document
-     * @param document
+     *
+     * @param document the document
      */
     public void delete(Document document){
         documentRepository.delete(document);

@@ -24,9 +24,15 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.when;
 
+/**
+ * The type Test document controller.
+ */
 @ExtendWith(MockitoExtension.class)
 class TestDocumentController {
 
+    /**
+     * The Document controller.
+     */
     @InjectMocks
     DocumentController documentController;
 
@@ -34,6 +40,9 @@ class TestDocumentController {
     private DocumentService documentService;
 
 
+    /**
+     * Test get all.
+     */
     @Test
     void testGetAll(){
 
@@ -51,6 +60,9 @@ class TestDocumentController {
         assertThat(iterator.next()).isEqualTo(doc2);
     }
 
+    /**
+     * Gets by nom when exist.
+     */
     @Test
     void getByNom_whenExist() {
         Document doc1 = new Document(new DocumentForm("file1", "nom_file1", new FileType("mp4"),new Date()));
@@ -65,6 +77,9 @@ class TestDocumentController {
         assertThat(iterator.next()).isEqualTo(doc1);
     }
 
+    /**
+     * Gets by nom when not exist.
+     */
     @Test
     void getByNom_whenNotExist() {
         when(documentService.getByNom(anyString(), any(Pageable.class))).thenReturn(Page.empty());
@@ -74,6 +89,9 @@ class TestDocumentController {
         assertThat(result.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
     }
 
+    /**
+     * Gets by id when exist.
+     */
     @Test
     void getById_whenExist() {
         Document doc1 = new Document(new DocumentForm("file1", "nom_file1", new FileType("mp4"),new Date()));
@@ -86,6 +104,9 @@ class TestDocumentController {
         assertThat(result.getBody()).isEqualTo(doc1);
     }
 
+    /**
+     * Gets by id when not exist.
+     */
     @Test
     void getById_whenNotExist() {
         when(documentService.getById(anyInt())).thenReturn(Optional.empty());
@@ -95,6 +116,9 @@ class TestDocumentController {
         assertThat(result.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
     }
 
+    /**
+     * Create document.
+     */
     @Test
     void createDocument(){
         DocumentForm docForm = new DocumentForm("file1", "nom_file1", new FileType("mp4"),new Date());
@@ -107,6 +131,9 @@ class TestDocumentController {
         assertThat(result.getBody()).isEqualTo(doc1);
     }
 
+    /**
+     * Update document when exist.
+     */
     @Test
     void updateDocument_whenExist(){
         DocumentForm docForm = new DocumentForm("file1", "nom_file1", new FileType("mp4"),new Date());
@@ -120,6 +147,9 @@ class TestDocumentController {
         assertThat(result.getBody()).isEqualTo(doc1);
     }
 
+    /**
+     * Update document when not exist.
+     */
     @Test
     void updateDocument_whenNotExist(){
         when(documentService.getById(1)).thenReturn(Optional.empty());
@@ -129,6 +159,9 @@ class TestDocumentController {
         assertThat(result.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
     }
 
+    /**
+     * Delete document when exist.
+     */
     @Test
     void deleteDocument_whenExist(){
         DocumentForm docForm = new DocumentForm("file1", "nom_file1", new FileType("mp4"),new Date());
@@ -141,6 +174,9 @@ class TestDocumentController {
         assertThat(result.getBody()).isEqualTo(1);
     }
 
+    /**
+     * Delete document when not exist.
+     */
     @Test
     void deleteDocument_whenNotExist(){
         when(documentService.getById(anyInt())).thenReturn(Optional.empty());
@@ -150,6 +186,9 @@ class TestDocumentController {
         assertThat(result.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
     }
 
+    /**
+     * Get stats by type.
+     */
     @Test
     void getStatsByType(){
         List<Document> documents = createListOfDocuments().getRight();
@@ -166,6 +205,9 @@ class TestDocumentController {
         assertThat(result.getBody()).isEqualTo(mapResult);
     }
 
+    /**
+     * Get stats by date.
+     */
     @Test
     void getStatsByDate(){
         Pair<List<Date>,List<Document>> lapeyre = createListOfDocuments();
@@ -186,6 +228,9 @@ class TestDocumentController {
         assertThat(result.getBody()).isEqualTo(mapResult);
     }
 
+    /**
+     * Get stats by les deux.
+     */
     @Test
     void getStatsByLesDeux(){
         Pair<List<Date>,List<Document>> lapeyre = createListOfDocuments();
@@ -208,6 +253,11 @@ class TestDocumentController {
         assertThat(result.getBody()).isEqualTo(mapResult);
     }
 
+    /**
+     * Create list of documents pair.
+     *
+     * @return the pair
+     */
     Pair<List<Date>,List<Document>> createListOfDocuments(){
         List<FileType> types = new ArrayList<>();
         types.add(new FileType("texte"));
